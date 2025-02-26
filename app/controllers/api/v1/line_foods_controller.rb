@@ -28,32 +28,28 @@ module Api
           }, status: :not_acceptable  # 406エラーを返す
         end
 
-        set_line_food(@ordered_food)  # `@ordered_food` に紐づく LineFood を新しくセット
-
-        if @line_food.save
-          render json: { line_food: @line_food }, status: :created  # 201 Created を返す（成功時）
-        else
-          render json: {}, status: :internal_server_error  # 500 エラーを返す（失敗時）
-        end
+        @line_food = LineFood.find_or_build_by_food!(@ordered_food, params[:count].to_i)  
+        @line_food.save!  # ✅ Controller で `save!` して、エラーハンドリングを行う
+    
+        render json: { line_food: @line_food }, status: :created  # ✅ 201 Created（成功時）
+    
+        rescue ActiveRecord::RecordInvalid  # ❌ バリデーションエラー
+          render json: {}, status: :unprocessable_entity  # 422 Unprocessable Entity
+      
+        rescue StandardError => e  # ❌ 予期しないエラー
+          render json: { error: "予期しないエラーが発生しました", details: e.message }, status: :internal_server_error  # 500 Internal Server Error
       end
 
       def replace
-        ActiveRecord::Base.transaction do  # トランザクション開始
-          # すでにアクティブな LineFood があり、異なるレストランのものがある場合、それらを無効化（active: false にする）
-          LineFood.active.other_restaurant(@ordered_food.restaurant.id).each do |line_food|
-            line_food.update!(:active, false)  # `update!` で失敗時にロールバック
-          end
-
-          set_line_food(@ordered_food)  # `@ordered_food` に紐づく LineFood を新しくセット
-
-          @line_food.save!  # `save!` で保存（失敗時は例外発生）
-          render json: { line_food: @line_food }, status: :created  # 201 Created（新しく作成されたリソース）
-        end
-
-        rescue ActiveRecord::RecordInvalid  # `update!` や `save!` が失敗した場合
+        @line_food = LineFood.find_or_build_by_food!(@ordered_food, params[:count].to_i)  
+        @line_food.save!  # ✅ Controller で `save!` して、エラーハンドリングを行う
+    
+        render json: { line_food: @line_food }, status: :created  # ✅ 201 Created（成功時）
+    
+        rescue ActiveRecord::RecordInvalid  # ❌ バリデーションエラー
           render json: {}, status: :unprocessable_entity  # 422 Unprocessable Entity
-
-        rescue StandardError => e  # その他の予期しないエラー（データベース障害など）
+      
+        rescue StandardError => e  # ❌ 予期しないエラー
           render json: { error: "予期しないエラーが発生しました", details: e.message }, status: :internal_server_error  # 500 Internal Server Error
       end
 
@@ -62,25 +58,6 @@ module Api
         # 注文する Food を取得し、@ordered_food に格納
         def set_food
           @ordered_food = Food.find(params[:food_id])
-        end
-
-        # `@line_food` を作成または更新
-        def set_line_food(ordered_food)
-          if ordered_food.line_food.present?
-            # すでに `LineFood` が存在する場合 → 数量を更新
-            @line_food = ordered_food.line_food
-            @line_food.attributes = {
-              count: ordered_food.line_food.count + params[:count],  # 注文数を加算
-              active: true  # `active` を true に設定
-            }
-          else
-            # `LineFood` が存在しない場合 → 新しく作成
-            @line_food = ordered_food.build_line_food(
-              count: params[:count],  # 注文数を設定
-              restaurant: ordered_food.restaurant,  # レストラン情報を紐づけ
-              active: true  # `active` を true に設定
-            )
-          end
         end
     end
   end

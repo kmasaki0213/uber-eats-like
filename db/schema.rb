@@ -13,9 +13,9 @@
 ActiveRecord::Schema[7.1].define(version: 2025_02_25_073135) do
   create_table "foods", force: :cascade do |t|
     t.integer "restaurant_id", null: false
-    t.string "name"
-    t.integer "price"
-    t.text "description"
+    t.string "name", null: false
+    t.integer "price", null: false
+    t.text "description", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["restaurant_id"], name: "index_foods_on_restaurant_id"
@@ -24,9 +24,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_25_073135) do
   create_table "line_foods", force: :cascade do |t|
     t.integer "food_id", null: false
     t.integer "restaurant_id", null: false
-    t.integer "order_id", null: false
-    t.integer "count"
-    t.boolean "active"
+    t.integer "order_id"
+    t.integer "count", default: 0, null: false
+    t.boolean "active", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["food_id"], name: "index_line_foods_on_food_id"
@@ -35,15 +35,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_25_073135) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.integer "total_price"
+    t.integer "total_price", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "restaurants", force: :cascade do |t|
-    t.string "name"
-    t.integer "fee"
-    t.integer "time_required"
+    t.string "name", null: false
+    t.integer "fee", default: 0, null: false
+    t.integer "time_required", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
