@@ -1,7 +1,7 @@
 module Api
   module V1
     class LineFoodsController < ApplicationController
-      before_action :set_food, only: %i[create, replace]  # createアクション、replaceアクションの前にset_foodアクションを実行
+      before_action :set_food, only: %i[create replace]  # createアクション、replaceアクションの前にset_foodアクションを実行
 
       def index
         line_foods = LineFood.active  # アクティブな (active: true) LineFood のデータを取得
@@ -22,7 +22,7 @@ module Api
       def create
         # 他のレストランの LineFood が既に存在する場合はエラーを返す
         if LineFood.active.other_restaurant(@ordered_food.restaurant.id).exists?
-          render json: {
+          return render json: {
             existing_restaurant: LineFood.other_restaurant(@ordered_food.restaurant.id).first.restaurant.name,  # 既存のレストラン名
             new_restaurant: Food.find(params[:food_id]).restaurant.name,  # 新しく注文しようとしたレストラン名
           }, status: :not_acceptable  # 406エラーを返す
@@ -31,26 +31,34 @@ module Api
         @line_food = LineFood.find_or_build_by_food!(@ordered_food, params[:count].to_i)  
         @line_food.save!  # ✅ Controller で `save!` して、エラーハンドリングを行う
     
-        render json: { line_food: @line_food }, status: :created  # ✅ 201 Created（成功時）
+        return render json: { line_food: @line_food }, status: :created  # ✅ 201 Created（成功時）
     
         rescue ActiveRecord::RecordInvalid  # ❌ バリデーションエラー
-          render json: {}, status: :unprocessable_entity  # 422 Unprocessable Entity
-      
+          return render json: {}, status: :unprocessable_entity  # 422 Unprocessable Entity
+          
         rescue StandardError => e  # ❌ 予期しないエラー
-          render json: { error: "予期しないエラーが発生しました", details: e.message }, status: :internal_server_error  # 500 Internal Server Error
+          return render json: { error: "予期しないエラーが発生しました", details: e.message }, status: :internal_server_error  # 500 Internal Server Error
       end
 
       def replace
-        @line_food = LineFood.find_or_build_by_food!(@ordered_food, params[:count].to_i)  
-        @line_food.save!  # ✅ Controller で `save!` して、エラーハンドリングを行う
-    
-        render json: { line_food: @line_food }, status: :created  # ✅ 201 Created（成功時）
-    
+        ActiveRecord::Base.transaction do
+          LineFood.active.other_restaurant(@ordered_food.restaurant.id).each do |line_food|
+            success = line_food.update!(active: false)  # `update!` で失敗時にロールバック
+          end
+
+          Rails.logger.debug "🛠 DEBUG: Calling find_or_build_by_food! with ordered_food=#{@ordered_food.inspect}, count=#{params[:count].to_i}"
+
+          
+          @line_food = LineFood.find_or_build_by_food!(@ordered_food, params[:count].to_i)  
+          @line_food.save!  # ✅ Controller で `save!` して、エラーハンドリングを行う
+          return render json: { line_food: @line_food }, status: :created  # ✅ 201 Created（成功時）
+        end
         rescue ActiveRecord::RecordInvalid  # ❌ バリデーションエラー
-          render json: {}, status: :unprocessable_entity  # 422 Unprocessable Entity
-      
+          return render json: {}, status: :unprocessable_entity  # 422 Unprocessable Entity
+          
         rescue StandardError => e  # ❌ 予期しないエラー
-          render json: { error: "予期しないエラーが発生しました", details: e.message }, status: :internal_server_error  # 500 Internal Server Error
+          puts e
+          return render json: { error: "予期しないエラーが発生しました", details: e.message }, status: :internal_server_error  # 500 Internal Server Error
       end
 
       private
