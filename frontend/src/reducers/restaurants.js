@@ -1,4 +1,3 @@
-// --- ここから追加 ---
 import { REQUEST_STATE } from '../constants';
 
 export const initialState = {
@@ -27,4 +26,3 @@ export const restaurantsReducer = (state, action) => {
       throw new Error();
   }
 }
-// --- ここまで追加 ---
