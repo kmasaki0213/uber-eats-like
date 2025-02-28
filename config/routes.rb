@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :orders, only: %i[create]
     end
   end
-
+  root to: redirect('/restaurants')
   # フロントエンドの React にすべてのリクエストを渡す
   get '*path', to: 'application#frontend', constraints: ->(req) { !req.xhr? && req.format.html? }
 end
