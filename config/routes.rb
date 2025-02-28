@@ -9,4 +9,7 @@ Rails.application.routes.draw do
       resources :orders, only: %i[create]
     end
   end
+
+  # フロントエンドの React にすべてのリクエストを渡す
+  get '*path', to: 'application#frontend', constraints: ->(req) { !req.xhr? && req.format.html? }
 end

@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::API
-  before_action :fake_load
 
-  def fake_load
-    sleep(1)
+  def frontend
+    render file: Rails.root.join('public', 'index.html'), layout: false
   end
 end
