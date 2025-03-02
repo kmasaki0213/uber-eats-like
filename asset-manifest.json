@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/uber-eats-like/static/css/main.f855e6bc.css",
+    "main.js": "/uber-eats-like/static/js/main.8f1d2a2b.js",
+    "static/js/453.8ab44547.chunk.js": "/uber-eats-like/static/js/453.8ab44547.chunk.js",
+    "static/media/restaurant-image.jpg": "/uber-eats-like/static/media/restaurant-image.d944356a62a7031d76d4.jpg",
+    "static/media/food-image.jpg": "/uber-eats-like/static/media/food-image.7a276d7bb6e4d576b72f.jpg",
+    "static/media/main-cover-image.png": "/uber-eats-like/static/media/main-cover-image.05e2370ca696e657c33f.png",
+    "static/media/order-header.png": "/uber-eats-like/static/media/order-header.2bb2ab1f4389864803a9.png",
+    "static/media/logo.png": "/uber-eats-like/static/media/logo.152cdf6583ada286e8b0.png",
+    "index.html": "/uber-eats-like/index.html",
+    "main.f855e6bc.css.map": "/uber-eats-like/static/css/main.f855e6bc.css.map",
+    "main.8f1d2a2b.js.map": "/uber-eats-like/static/js/main.8f1d2a2b.js.map",
+    "453.8ab44547.chunk.js.map": "/uber-eats-like/static/js/453.8ab44547.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f855e6bc.css",
+    "static/js/main.8f1d2a2b.js"
+  ]
+}
