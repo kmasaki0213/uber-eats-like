@@ -45,3 +45,8 @@ group :development do
   # gem "spring"
 end
 
+group :production do
+  gem 'pg'
+end
+
+gem "jsbundling-rails", "~> 1.3"

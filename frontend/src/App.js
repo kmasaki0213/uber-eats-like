@@ -16,25 +16,23 @@ import { Orders } from './containers/Orders.jsx';  // 注文ページ
 // アプリのメインコンポーネント
 function App() {
   return (
-    <Router>  {/* ルーティング機能を有効化 */}
-      <Routes>  {/* ルートの切り替えを管理 */}
+    <Routes>  {/* ルートの切り替えを管理 */}
 
-        <Route path="/restaurants"
-          element={<Restaurants />}
-        />
-        <Route path="/foods"
-          element={<Foods />}
-        />
-        <Route path="/orders"
-          element={<Orders />}
-        />
+      <Route path="/"
+        element={<Restaurants />}
+      />
+      <Route path="/foods"
+        element={<Foods />}
+      />
+      <Route path="/orders"
+        element={<Orders />}
+      />
 
-        <Route exact path="/restaurants/:restaurantsId/foods"
-          element={<Foods />}
-        />
+      <Route exact path="/restaurants/:restaurantsId/foods"
+        element={<Foods />}
+      />
 
-      </Routes>
-    </Router>
+    </Routes>
   );
 }
 
