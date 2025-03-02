@@ -1,0 +1,18 @@
+# pack-refs with: peeled fully-peeled sorted 
+e522533665f1cd6076c8e3d68b9bf48265a73889 refs/heads/add-react-frontend-to-rails
+1fe45ad396f64ce712cbdabac0a2d06e3d330929 refs/heads/add-temp-order-api
+9e5daad8253160d7c5d6a15d1ce40bba70217a05 refs/heads/create-api-controller
+762825177ff536b30f51d3bfa0ce27cf632d2aee refs/heads/create-food-controller
+cbb715183d13ad4333e4df15b7fec16f2afa457d refs/heads/create-food-view
+66bc45b3e552794db5fae06422a40e0707c64172 refs/heads/create-line-food-controller
+940415b0e8d43a7f16abcc8dee50ca8532129344 refs/heads/create-modal
+9c78ed1245639a73f16e8835e25bce3e603e4a5a refs/heads/create-model
+1b1638462dbfedcaf6d6b1892c6905b0260910ca refs/heads/create-orders-controller
+45d6464b53b000245c9cfd670034c1e711633dac refs/heads/create-react-project
+1e9aeae21df21f5a25131ceb17efd7ddba360660 refs/heads/create-reducer
+7eba63c3edaba6e7d7c0ffa010f5c743a3d23b75 refs/heads/gh-pages
+1c30a776308e595137c3007b91ed2abf5d3aabe9 refs/heads/main
+51cae40c4386aca53dbdd7caa3f40006108ca8ce refs/heads/put-consts-images
+5a614d35fb223dc97cbba56089b43599933c0f72 refs/heads/setting-react-rortes
+7eba63c3edaba6e7d7c0ffa010f5c743a3d23b75 refs/remotes/origin/gh-pages
+77f491984aa97607e6bef1c6a8bf8d5d5b4bd30b refs/remotes/origin/main

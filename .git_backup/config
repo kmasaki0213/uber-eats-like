@@ -1,0 +1,32 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	ignorecase = true
+	precomposeunicode = true
+[remote "origin"]
+	url = https://github.com/kmasaki0213/uber-eats-like.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "main"]
+	remote = origin
+	merge = refs/heads/main
+[branch "create-model"]
+	remote = origin
+	merge = refs/heads/main
+[branch "create-api-controller"]
+	vscode-merge-base = origin/main
+[branch "create-food-controller"]
+	vscode-merge-base = origin/main
+[branch "create-line-food-controller"]
+	vscode-merge-base = origin/main
+[branch "create-orders-controller"]
+	vscode-merge-base = origin/main
+[branch "create-react-project"]
+	vscode-merge-base = origin/main
+[diff "rails_credentials"]
+	textconv = bin/rails credentials:diff
+[branch "gh-pages"]
+	remote = origin
+	merge = refs/heads/gh-pages
+	vscode-merge-base = origin/gh-pages
